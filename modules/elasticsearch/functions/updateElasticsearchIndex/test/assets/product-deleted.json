@@ -1,0 +1,84 @@
+{
+    "resource": "/{store_id}/webhooks/search/{resource_name}",
+    "path": "/2225722776554046417/webhooks/search/products",
+    "httpMethod": "POST",
+    "headers": {
+      "accept-encoding": "gzip",
+      "content-type": "application/json",
+      "Host": "vj4lyy1pm3.execute-api.us-west-2.amazonaws.com",
+      "User-Agent": "moltin/integrations",
+      "X-Amzn-Trace-Id": "Root=1-5eea6921-da3ac216d122cd793ff86a25",
+      "X-Forwarded-For": "63.34.104.89",
+      "X-Forwarded-Port": "443",
+      "X-Forwarded-Proto": "https",
+      "x-moltin-integration-trigger": "product.updated"
+    },
+    "multiValueHeaders": {
+      "accept-encoding": [
+        "gzip"
+      ],
+      "content-type": [
+        "application/json"
+      ],
+      "Host": [
+        "vj4lyy1pm3.execute-api.us-west-2.amazonaws.com"
+      ],
+      "User-Agent": [
+        "moltin/integrations"
+      ],
+      "X-Amzn-Trace-Id": [
+        "Root=1-5eea6921-da3ac216d122cd793ff86a25"
+      ],
+      "X-Forwarded-For": [
+        "63.34.104.89"
+      ],
+      "X-Forwarded-Port": [
+        "443"
+      ],
+      "X-Forwarded-Proto": [
+        "https"
+      ],
+      "x-moltin-integration-trigger": [
+        "product.updated"
+      ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": {
+      "store_id": "2225722776554046417",
+      "resource_name": "products"
+    },
+    "stageVariables": null,
+    "requestContext": {
+      "resourceId": "zj2hc7",
+      "resourcePath": "/{store_id}/webhooks/search/{resource_name}",
+      "httpMethod": "POST",
+      "extendedRequestId": "OSVdUE4fPHcFUKQ=",
+      "requestTime": "17/Jun/2020:19:04:01 +0000",
+      "path": "/dev/2225722776554046417/webhooks/search/products",
+      "accountId": "660901102953",
+      "protocol": "HTTP/1.1",
+      "stage": "dev",
+      "domainPrefix": "vj4lyy1pm3",
+      "requestTimeEpoch": 1592420641975,
+      "requestId": "0198e226-8837-4214-a871-b7321b2da754",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": null,
+        "cognitoIdentityId": null,
+        "caller": null,
+        "sourceIp": "63.34.104.89",
+        "principalOrgId": null,
+        "accessKey": null,
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": null,
+        "userAgent": "moltin/integrations",
+        "user": null
+      },
+      "domainName": "vj4lyy1pm3.execute-api.us-west-2.amazonaws.com",
+      "apiId": "vj4lyy1pm3"
+    },
+    "body": "{\"id\":\"b8444f68-075f-44d3-ba1e-bf411a4f7fb2\",\"triggered_by\":\"product.deleted\",\"attempt\":1,\"integration\":{\"id\":\"7ca9b5b7-aeac-4138-869b-d47223314382\",\"integration_type\":\"webhook\",\"name\":\"Product Events Wiretap (webhook.site)\",\"description\":\"Updates the Elasticsearch product index\"},\"resources\":{\"id\":\"61046126-57c7-4b31-8026-872c3f18d99f\",\"type\":\"product\"},\"payload\":{\"type\":\"product\",\"id\":\"0f4721b9-c3ca-4245-a4fa-79431f02571d\"},\"configuration\":{\"url\":\"https://webhook.site/df799c72-7ba6-47d3-9993-6769c505410b\"}}",
+    "isBase64Encoded": false
+  }

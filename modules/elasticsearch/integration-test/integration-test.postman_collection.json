@@ -1,0 +1,444 @@
+{
+	"info": {
+		"_postman_id": "72e0e985-4705-496b-85a2-473fcbb9943c",
+		"name": "EPCC and Elasticsearch - Integration Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate client token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd192b3f-569d-4da2-a795-8992f4716a8f",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.test(\"Status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check access_token value\", function () {",
+							"    pm.expect(jsonData.access_token).to.be.a('string');",
+							"});",
+							"pm.environment.set(\"client_token\", jsonData.access_token);",
+							"pm.environment.set(\"product_name\", pm.variables.replaceIn('{{$randomBsNoun}}{{$randomBsNoun}}{{$randomBsNoun}}{{$timestamp}}'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{APIGW}}/oauth/access_token",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"oauth",
+						"access_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for test product and don't find it",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "18e081bc-7fbb-439f-b982-6b8cd60d4ead",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4eef7c4c-56ea-47b6-aa1e-0593b25df143",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.test(\"Status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Total search hits are 0\", function () {",
+							"    pm.expect(jsonData.hits.total.value).to.eql(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": {\n        \"match\" : {\n            \"name\" : {\n                \"query\": \"{{product_name}}\",\n                \"fuzziness\": \"0\"\n            }\n        }\n    }\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{APIGW}}/searches/products/_search",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"searches",
+						"products",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create test product in EPCC and wait 5 seconds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64ed9bfb-8dbd-4ff0-b271-85d65cbb364d",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.test(\"Status is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Product was created\", function () {",
+							"    pm.expect(jsonData.data.name).to.eql(pm.environment.get(\"product_name\"));",
+							"});",
+							"pm.environment.set(\"product_id\", jsonData.data.id);",
+							"",
+							"// Wait 5 secs before continuing ...",
+							"setTimeout(function(){}, 5000);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "11acd187-605a-428b-b88f-72f60f3335e6",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"description": "Divert from default language",
+						"key": "X-MOLTIN-LANGUAGE",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"description": "Change from default currency",
+						"key": "X-MOLTIN-CURRENCY",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"description": "Change default locale",
+						"key": "X-MOLTIN_LOCALE",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": {\n    \"type\": \"product\",\n    \"name\": \"{{product_name}}\",\n    \"slug\": \"{{$randomLoremSlug}}\",\n    \"sku\": \"{{$guid}}\",\n    \"description\": \"{{product_name}}\",\n    \"manage_stock\": true,\n    \"price\": [\n      {\n        \"amount\": 10000,\n        \"currency\": \"USD\",\n        \"includes_tax\": true\n      }\n    ],\n    \"status\": \"live\",\n    \"commodity_type\": \"physical\"\n  }\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{APIGW}}/products",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for test product and now find it",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd04a29f-37c6-4c5a-b0cc-dcd9e7b27e8b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3fd9eb-ad0d-4eab-b9a9-6702e6cbc2d8",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.test(\"Status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Total search hits are 1\", function () {",
+							"    pm.expect(jsonData.hits.total.value).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": {\n        \"match\" : {\n            \"name\" : {\n                \"query\": \"{{product_name}}\",\n                \"fuzziness\": \"0\"\n            }\n        }\n    }\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{APIGW}}/searches/products/_search",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"searches",
+						"products",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete test product from EPCC and wait 5 seconds",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e564c71e-e112-40b7-8816-8b528d1c4cc8",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9600ee2-7f3c-4a2b-9c1a-7f5b055c05bd",
+						"exec": [
+							"pm.test(\"Status is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"// Wait 5 secs before continuing ...",
+							"setTimeout(function(){}, 5000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{APIGW}}/products/{{product_id}}",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"products",
+						"{{product_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for test product and don't find it anymore",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "74f1687c-d859-44f8-9dad-eaf1df74a567",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "833cd9fb-b7cf-439e-8577-70d52d7ce148",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.test(\"Status is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Total search hits are 0\", function () {",
+							"    pm.expect(jsonData.hits.total.value).to.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": {\n        \"match\" : {\n            \"name\" : {\n                \"query\": \"{{product_name}}\",\n                \"fuzziness\": \"0\"\n            }\n        }\n    }\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{APIGW}}/searches/products/_search",
+					"host": [
+						"{{APIGW}}"
+					],
+					"path": [
+						"searches",
+						"products",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{client_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2ba5454d-9544-4fea-a621-f6a21bdd2212",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "590a2946-9c67-4394-a246-591b31da1c9c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

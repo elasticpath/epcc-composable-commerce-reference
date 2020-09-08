@@ -1,0 +1,86 @@
+---
+swagger: "2.0"
+info:
+  version: "2020-06-23T00:48:00Z"
+  title: "EPCC Proxy"
+host: "fixme.vj4lyy1pm3.execute-api.us-west-2.amazonaws.com"
+basePath: "/dev/12345678"
+schemes:
+- "https"
+paths:
+  /{store_id}/webhooks:
+    x-amazon-apigateway-any-method:
+      produces:
+      - "application/json"
+      parameters:
+      - name: "store_id"
+        in: "path"
+        required: true
+        type: "string"
+      responses: {}
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        httpMethod: "ANY"
+        type: "mock"
+  /{store_id}/oauth/{proxy+}:
+    x-amazon-apigateway-any-method:
+      produces:
+      - "application/json"
+      parameters:
+      - name: "store_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "proxy"
+        in: "path"
+        required: true
+        type: "string"
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: "https://api.moltin.com/oauth/{proxy}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.store_id: "method.request.path.store_id"
+          integration.request.path.proxy: "method.request.path.proxy"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "ANY"
+        cacheNamespace: "g8e8ok"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        type: "http_proxy"
+  /{store_id}/{proxy+}:
+    x-amazon-apigateway-any-method:
+      produces:
+      - "application/json"
+      parameters:
+      - name: "store_id"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "proxy"
+        in: "path"
+        required: true
+        type: "string"
+      responses: {}
+      x-amazon-apigateway-integration:
+        uri: "https://api.moltin.com/v2/{proxy}"
+        responses:
+          default:
+            statusCode: "200"
+        requestParameters:
+          integration.request.path.store_id: "method.request.path.store_id"
+          integration.request.path.proxy: "method.request.path.proxy"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "ANY"
+        cacheNamespace: "oawo3a"
+        cacheKeyParameters:
+        - "method.request.path.proxy"
+        type: "http_proxy"
+definitions:
+  Empty:
+    type: "object"
+    title: "Empty Schema"

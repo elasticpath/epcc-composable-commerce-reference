@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "8650bd30-a190-44c8-bbc2-fd601797fc70",
+		"name": "EPCC and Elasticsearch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "config",
+			"item": [
+				{
+					"name": "config:epcc:integrations",
+					"item": [
+						{
+							"name": "Generate client token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "68787bd0-11b7-410f-a00f-cdf51d604a34",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"pm.environment.set(\"client_token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "client_id",
+											"value": "{{client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{client_secret}}",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{APIGW}}/oauth/access_token",
+									"host": [
+										"{{APIGW}}"
+									],
+									"path": [
+										"oauth",
+										"access_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add product search index webhook",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "913fe89a-b7b0-422f-9086-8c7a5f167844",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"description": "Divert from default language",
+										"key": "X-MOLTIN-LANGUAGE",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"description": "Change from default currency",
+										"key": "X-MOLTIN-CURRENCY",
+										"value": "",
+										"disabled": true
+									},
+									{
+										"description": "Change default locale",
+										"key": "X-MOLTIN_LOCALE",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"data\": {\n    \"type\": \"integration\",\n    \"integration_type\": \"webhook\",\n    \"enabled\": true,\n    \"name\": \"Elasticsearch Product Search Index\",\n    \"description\": \"Updates the Elasticsearch product search index\",\n    \"observes\": [\n      \"product.created\",\n      \"product.updated\",\n      \"product.deleted\"\n    ],\n    \"configuration\": {\n      \"url\": \"{{APIGW}}/webhooks/search/products\"\n    }\n  }\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{APIGW}}/integrations",
+									"host": [
+										"{{APIGW}}"
+									],
+									"path": [
+										"integrations"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "unconfig",
+			"item": [
+				{
+					"name": "unconfig:epcc:integrations",
+					"item": [
+						{
+							"name": "Generate client token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "929294ff-3639-4f4d-bcb6-534c777998fa",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"pm.environment.set(\"client_token\", jsonData.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "client_id",
+											"value": "{{client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{client_secret}}",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{APIGW}}/oauth/access_token",
+									"host": [
+										"{{APIGW}}"
+									],
+									"path": [
+										"oauth",
+										"access_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find product search index webhook",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8fb19e19-69ec-480e-ac6b-980cce18c74d",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "6ce41e98-34d3-49b9-95e1-91059c321268",
+										"exec": [
+											"pm.response.json().data.forEach(integration => {",
+											"    if(integration.configuration.url === pm.environment.get(\"APIGW\") + \"/webhooks/search/products\") {",
+											"        pm.environment.set(\"integrationId\", integration.id);",
+											"    }",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{APIGW}}/integrations",
+									"host": [
+										"{{APIGW}}"
+									],
+									"path": [
+										"integrations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product search index webhook",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "012feb56-8042-4fad-a944-8da5ca6cc790",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ad0c1ed5-993a-4e78-b7e4-adfbb8ce24d4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{APIGW}}/integrations/{{integrationId}}",
+									"host": [
+										"{{APIGW}}"
+									],
+									"path": [
+										"integrations",
+										"{{integrationId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{client_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ed410207-0789-4d8c-96e5-191135a25b52",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "993ae314-8d96-4707-aac7-2ec8d55f63de",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
