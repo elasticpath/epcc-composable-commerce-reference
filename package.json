@@ -6,6 +6,7 @@
   "license": "ISC",
   "private": true,
   "scripts": {
+    "start": "npm run build && npm run deploy && npm run config",
     "pretest": "eslint --ignore-pattern 'modules/*/functions/*/test/**' modules/*/functions/**",
     "test": "npm run test:modules",
     "test:modules": "cd modules && foreach-folder 'npm test'",
