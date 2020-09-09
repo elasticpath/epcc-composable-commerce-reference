@@ -1,5 +1,15 @@
-# Overview
-A demo of a multi-module commerce composite, featuring:
+<img src="https://www.elasticpath.com/themes/custom/bootstrap_sass/logo.svg" alt="" width="400" />
+
+# Composable Commerce Reference
+
+[![Stable Branch](https://img.shields.io/badge/stable%20branch-master-blue.svg)](https://github.com/elasticpath/epcc-composable-commerce-reference)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/elasticpath/epcc-react-pwa-reference-storefront/issues)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![follow on Twitter](https://img.shields.io/twitter/follow/elasticpath?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=elasticpath)
+
+## Overview 🚀
+The Elastic Path Commerce Cloud Composable Commerce Reference is a multi-module commerce composite, featuring:
 * Elasticsearch integration for product data
 * API stats resource showing version and last deployment time
 
@@ -9,7 +19,8 @@ Modules *independently* contribute to the API and infrastructure:
 
 [IMAGE]
 
-## Tech Stack
+## Documentation 📖
+### Tech Stack
 * **AWS:** Hosting
   * AWS Lambda
   * AWS API Gateway
@@ -18,7 +29,7 @@ Modules *independently* contribute to the API and infrastructure:
 * **Node.js**: Lambda Functions
 * **Postman / Newman:** Configuration and integration tests
 
-## API
+### API
 This project provides the following API:
 ```
 /_version
@@ -31,12 +42,13 @@ etc.
 ```
 `{resource_name}` indicates a generic integration pattern; in this case only `products` are supported since the minimal implementation provided here only indexes product data. However, this can easily be extended to support other EPCC data such as categories, customers, orders etc.
 
-# Prerequisites
-- AWS CLI 2.0.26 or later installed and configured
+## Prerequisites
+Before you begin, ensure that you have the following installed and / or configured:
+- AWS CLI 2.0.26 or later
 - Terraform 0.13.2 or later
 - Elasticsearch server with basic authentication (user and password must be Base64 encoded, e.g. like this: `echo -n user:passw0rd | base64`)
 
-# Usage
+## Usage
 1. Edit configuration parameters in `config/config.json`
 1. Run `npm install && npm run start`
 
