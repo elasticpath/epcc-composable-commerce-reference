@@ -9,8 +9,8 @@
 [![follow on Twitter](https://img.shields.io/twitter/follow/elasticpath?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=elasticpath)
 
 ## Overview 🚀
-The Elastic Path Commerce Cloud Composable Commerce Reference shows how to extend the business capabilities of EPCC with a modular serverless application:
-* Elasticsearch integration for product data,
+The Elastic Path Commerce Cloud Composable Commerce Reference shows how to extend the business capabilities of EPCC with a modular serverless application, featuring:
+* an Elasticsearch integration for product data,
 * API stats resource showing version and last deployment time.
 
 The project structure can serve as a blueprint for building and deploying modular serverless applications.
@@ -22,33 +22,25 @@ Modules *independently* contribute to the API and infrastructure:
 [IMAGE]
 
 ## Documentation 📖
-### Tech Stack
-* **AWS:** Hosting
-  * AWS Lambda
-  * AWS API Gateway
-* **Terraform**: Infrastructure
-* **npm**: Project structure and build script
-* **Node.js**: Lambda Functions
-* **Postman / Newman:** Configuration and integration tests
 
 ### API
-This project provides the following API:
+Once deployed, this project will provide the following API:
 ```
 /_version
-/{store_id}/search/{resource_name}
+/{store_id}/searches/{resource_name}
 /{store_id}/webhooks/search/{resource_name}
 /{store_id}/oauth
 /{store_id}/products
 /{store_id}/orders
-etc.
+/{store_id}/...
 ```
-`{resource_name}` indicates a generic integration pattern; in this case only `products` are supported since the minimal implementation provided here only indexes product data. However, this can easily be extended to support other EPCC data such as categories, customers, orders etc.
+`{resource_name}` indicates a generic integration pattern. In this case only `products` are supported since the minimal implementation provided here only indexes product data. However, this can easily be extended to support other EPCC data such as categories, customers, orders etc.
 
 ### Prerequisites
 Before you begin, ensure that you have the following configured:
 - [Elastic Path Commerce Cloud account](https://dashboard.elasticpath.com/login)
 - [Amazon Web Services account](https://aws.amazon.com/)
-- [Elasticsearch](https://www.elastic.co/start) with basic authentication (user and password must be Base64 encoded, e.g. like this: `echo -n user:passw0rd | base64`)
+- [Elasticsearch](https://www.elastic.co/start) with basic authentication
 
 ### Development Tools
 Building or extending EPCC Composable Commerce Reference requires the following software:
@@ -68,7 +60,8 @@ cd epcc-composable-commerce-reference
 # Install all the dependencies for all sub-projects
 npm install
 
-# Configure the parameters in the file config/config.json; see section "Configuration Parameter Descriptions" below
+# Configure the parameters in the file config/config.json.
+# See section "Configuration Parameter Descriptions" below.
 
 # Build and deploy:
 npm run start
@@ -109,5 +102,18 @@ Parameters that require configuration are in the `config/config.json` file:
 |`epcc_store_id`| Required| String| The Store ID of your EPCC store|
 |`epcc_client_id`| Required| String| A client ID for accessing your EPCC store|
 |`epcc_client_secret`| Required| String| The client secret for the client ID|
+|`elasticsearch_url`| Required | String | Elasticsearch endpoint that allows searching and managing search documents|
+|`elasticsearch_auth`| Required | String | Elasticsearch basic authentication, e.g. `"Basic dXNlcjpwYXNzdzByZA=="`|
+|`api_version`| Required | String | API version, e.g. `"1.0.0"`|
 
+Basic authentication requires that user and password are Base64 encoded:
+```
+echo -n user:passw0rd | base64
+```
 
+## Contributing
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
+
+## Terms And Conditions
+- Any changes to this project must be reviewed and approved by the repository owner. For more information about contributing, see the [LINK TO Contribution Guide]
+- For more information about the license, see [LINK TO LICENSE].
