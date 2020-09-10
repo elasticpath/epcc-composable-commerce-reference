@@ -115,5 +115,5 @@ echo -n user:passw0rd | base64
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
 
 ## Terms And Conditions
-- Any changes to this project must be reviewed and approved by the repository owner. For more information about contributing, see the [LINK TO Contribution Guide]
-- For more information about the license, see [LINK TO LICENSE].
+- Any changes to this project must be reviewed and approved by the repository owner. For more information about contributing, see the [Contribution Guide](https://github.com/elasticpath/epcc-composable-commerce-reference/blob/master/.github/CONTRIBUTING.md).
+- For more information about the license, see [GPLv3 License](https://github.com/elasticpath/epcc-composable-commerce-reference/blob/master/LICENSE).
