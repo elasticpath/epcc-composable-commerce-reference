@@ -1,7 +1,7 @@
 {
   "name": "epcc-module-api-version",
   "version": "1.0.0",
-  "description": "API version module for EPCC",
+  "description": "API version module for Elastic Path Commerce Cloud",
   "author": "Elastic Path Software, Inc.",
   "license": "ISC",
   "private": true,
@@ -12,7 +12,7 @@
     "build:config": "path-exists config && cpy config dist/config || echo 'No configuration to build, skipping'",
     "build:functions": "path-exists functions && cpy '**/*.js' '!**/*.test.js/' ../dist/functions --cwd functions --parents && npm run build:functions:zip",
     "build:functions:zip": "path-exists dist/functions && cd dist/functions && foreach -g '*/' -x 'cd #{name} && bestzip ../#{name}.zip * && cd .. && rimraf #{name}'",
-    "build:infrastructure": "cpy '*.tf' dist",
+    "build:infrastructure": "ncp infrastructure dist",
     "build:integration-test": "path-exists integration-test && cpy './integration-test/*' 'dist/integration-test' || echo 'No integration test available, skipping'",
     "config": "npm run config:epcc",
     "config:epcc": "npm run config:epcc:datamodel && npm run config:epcc:integrations",
