@@ -66,13 +66,20 @@ npm install
 # Build and deploy:
 npm run start
 ```
-`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL.
+`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL. Terraform will ask you to confirm before creating any infrastructure: typing in `yes` will confirm.
+
+⚠️ &nbsp; **NOTE:** Depending on your useage charges may occur when deploying infrastructure in AWS.
 
 > `npm run start` is equivalent to the command `npm run build && npm run deploy && npm run config`.
 
 Once everything is deployed and configured you can start the included integration test to ensure everything is working as expected:
 ```bash
 npm run integration-test
+```
+
+Use the following command to undeploy infrastructure and remove the configured integration webhook from Elastic Path Commerce Cloud:
+```bash
+npm run undeploy
 ```
 
 Available commands:
@@ -83,7 +90,6 @@ npm run build
 npm run deploy
 npm run config
 npm run integration-test
-npm run unconfig
 npm run undeploy
 npm run clean
 ```
