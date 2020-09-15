@@ -21,7 +21,7 @@
     "unconfig:epcc": "npm run unconfig:epcc:datamodel && npm run unconfig:epcc:integrations",
     "unconfig:epcc:datamodel": "echo 'No EPCC data model changes need to be rolled back, skipping'",
     "unconfig:epcc:integrations": "newman run config/config.postman_collection.json -e ../../dist/postman.env.json --folder 'unconfig:epcc:integrations'",
-    "integration-test": "echo TODO #cd integration-test && npm run test",
+    "integration-test": "echo 'No standalone integration test available, skipping'",
     "clean": "rimraf dist/"
   },
   "devDependencies": {
