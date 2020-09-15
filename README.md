@@ -38,7 +38,7 @@ Once deployed, this project will provide the following API:
 /{store_id}/orders
 /{store_id}/...
 ```
-`{resource_name}` indicates a generic integration pattern. In this case only `products` are supported since the minimal implementation provided here only indexes product data. However, this can easily be extended to support other EPCC data such as categories, customers, orders etc.
+`{resource_name}` indicates a generic integration pattern. In this case only `products` are supported since the minimal implementation provided here only indexes product data. However, this can easily be extended to support other Elastic Path Commerce Cloud data such as categories, customers, orders etc.
 
 ### Prerequisites
 Before you begin, ensure that you have the following configured:
@@ -47,7 +47,7 @@ Before you begin, ensure that you have the following configured:
 - [Elasticsearch](https://www.elastic.co/start) with basic authentication
 
 ### Development Tools
-Building or extending EPCC Composable Commerce Reference requires the following software:
+Building or extending the Composable Commerce Reference requires the following software:
 - [Git](https://git-scm.com/downloads)
 - [Node.js and npm](https://nodejs.org/en/download/)
 - [AWS Command Line Interface 2.0.26 or later](https://aws.amazon.com/cli/)
@@ -70,26 +70,24 @@ npm install
 # Build and deploy
 npm run start
 ```
-`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL. Terraform will ask you to confirm before creating or destroying any infrastructure: typing in `yes` will confirm.
+`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure Elastic Path Commerce Cloud with the appropriate integration webhook URL. Terraform will ask you to confirm before creating or destroying any infrastructure: typing in `yes` will confirm.
 
-⚠️ &nbsp;**NOTE:** Depending on your useage charges may occur when deploying infrastructure in AWS.
+⚠️ &nbsp;**NOTE:** Depending on your useage, charges may occur when deploying infrastructure in AWS.
 
-> `npm run start` is equivalent to the command `npm run build && npm run deploy && npm run config`.
-
+### Testing
 Once everything is deployed and configured you can start the included integration test to ensure everything is working as expected:
 ```bash
 npm run integration-test
 ```
-
+### Cleanup
 Use the following command to undeploy infrastructure and remove the configured integration webhook from Elastic Path Commerce Cloud:
 ```bash
 npm run undeploy
 ```
-
-Available npm scripts:
+### Available Scripts
+`package.json` provides these scripts:
 ```
 npm run start
-npm run test
 npm run build       
 npm run deploy
 npm run config
@@ -97,6 +95,9 @@ npm run integration-test
 npm run undeploy
 npm run clean
 ```
+`npm run start` is equivalent to the command `npm run build && npm run deploy && npm run config`.
+
+Local unit tests can be run via `npm test`. 
 
 ### API Endpoint
 ```
