@@ -1,9 +1,8 @@
 {
-  "name": "epcc-module-elasticsearch",
+  "name": "epcc-composable-commerce-reference-module-elasticsearch",
   "version": "1.0.0",
-  "description": "Elasticsearch module for Elastic Path Commerce Cloud",
-  "author": "Elastic Path Software, Inc.",
-  "license": "ISC",
+  "author": "Elastic Path Software Inc.",
+  "license": "GPL-3.0-only",
   "private": true,
   "scripts": {
     "test": "mocha --recursive 'functions/*/test/*.js'",

@@ -1,9 +1,8 @@
 {
-  "name": "epcc-module-api-version",
+  "name": "epcc-composable-commerce-reference-module-api-version",
   "version": "1.0.0",
-  "description": "API version module for Elastic Path Commerce Cloud",
-  "author": "Elastic Path Software, Inc.",
-  "license": "ISC",
+  "author": "Elastic Path Software Inc.",
+  "license": "GPL-3.0-only",
   "private": true,
   "scripts": {
     "test": "echo 'No tests available, skipping'",

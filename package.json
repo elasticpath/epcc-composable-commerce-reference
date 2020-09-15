@@ -1,9 +1,8 @@
 {
-  "name": "epcc-composable-commerce-demo",
+  "name": "epcc-composable-commerce-reference",
   "version": "1.0.0",
-  "description": "EPCC Composable Commerce Demo",
-  "author": "Elastic Path Software, Inc.",
-  "license": "ISC",
+  "author": "Elastic Path Software Inc.",
+  "license": "GPL-3.0-only",
   "private": true,
   "scripts": {
     "start": "npm run build && npm run deploy && npm run config",
