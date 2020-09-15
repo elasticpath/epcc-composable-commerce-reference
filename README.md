@@ -9,17 +9,21 @@
 [![follow on Twitter](https://img.shields.io/twitter/follow/elasticpath?style=social&logo=twitter)](https://twitter.com/intent/follow?screen_name=elasticpath)
 
 ## Overview 🚀
-The Elastic Path Commerce Cloud Composable Commerce Reference shows how to extend the business capabilities of EPCC with a modular serverless application, featuring:
-* an Elasticsearch integration for product data,
-* API stats resource showing version and last deployment time.
+The Elastic Path Commerce Cloud Composable Commerce Reference shows how to combine the business capabilities of Elastic Path Commerce Cloud with other services or packaged business components through a modular serverless application. The modules provided here for reference are:
+* an Elasticsearch integration for indexing and searching catalog data,
+* an API version resource showing the API's version and last deployment time.
 
-The project structure can serve as a blueprint for building and deploying modular serverless applications.
+Each module *independently* contributes to the API and infrastructure, therefore the project structure shown here can easily serve as a blueprint for building and deploying modular serverless applications.
 
-[IMAGE]
+![Composable Commerce API](.github/images/composable-commerce-api.png)
 
-Modules *independently* contribute to the API and infrastructure:
+The Elasticsearch integration works as follows:
+1. Elastic Path Commerce Cloud is configured to send product change events to the new webhook endpoint `/webhooks/search/{resource}`.
+1. When a product change event is received, the serverless Lambda function `updateElasticsearchIndex` is called.
+1. The function creates the search document and updates the Elasticsearch search index accordingly by adding, updating, or deleting entries.
 
-[IMAGE]
+💡 &nbsp;Note that the `/searches` resource exposes the Elasticsearch APIs alongside the Elastic Path Commerce Cloud APIs.
+
 
 ## Documentation 📖
 
@@ -57,7 +61,7 @@ git clone https://github.com/elasticpath/epcc-composable-commerce-reference.git
 # Go into the cloned directory
 cd epcc-composable-commerce-reference
 
-# Install all the dependencies for all sub-projects
+# Install dependencies for all modules
 npm install
 
 # Configure the parameters in the file config/config.json.
@@ -66,9 +70,9 @@ npm install
 # Build and deploy
 npm run start
 ```
-`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL. Terraform will ask you to confirm before creating any infrastructure: typing in `yes` will confirm.
+`npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL. Terraform will ask you to confirm before creating or destroying any infrastructure: typing in `yes` will confirm.
 
-⚠️ &nbsp; **NOTE:** Depending on your useage charges may occur when deploying infrastructure in AWS.
+⚠️ &nbsp;**NOTE:** Depending on your useage charges may occur when deploying infrastructure in AWS.
 
 > `npm run start` is equivalent to the command `npm run build && npm run deploy && npm run config`.
 
@@ -82,7 +86,7 @@ Use the following command to undeploy infrastructure and remove the configured i
 npm run undeploy
 ```
 
-Available commands:
+Available npm scripts:
 ```
 npm run start
 npm run test
@@ -96,7 +100,7 @@ npm run clean
 
 ### API Endpoint
 ```
-api_endpoint: https://{apigw_id_etc}.amazonaws.com/dev/{epcc_store_id}
+https://<apigw_id_etc>.amazonaws.com/dev/<epcc_store_id>
 ```
 
 ## Configuration Parameter Descriptions ⚙️
@@ -105,14 +109,14 @@ Parameters that require configuration are in the `config/config.json` file:
 
 |Parameter| Importance|Type|Description|
 |--|--|--|--|
-|`epcc_store_id`| Required| String| The Store ID of your EPCC store|
-|`epcc_client_id`| Required| String| A client ID for accessing your EPCC store|
+|`epcc_store_id`| Required| String| The store ID of your Elastic Path Commerce Cloud store|
+|`epcc_client_id`| Required| String| A client ID for accessing your store|
 |`epcc_client_secret`| Required| String| The client secret for the client ID|
-|`elasticsearch_url`| Required | String | Elasticsearch endpoint that allows searching and managing search documents|
+|`elasticsearch_url`| Required | String | Elasticsearch endpoint that allows searching, configuration, and managing search documents|
 |`elasticsearch_auth`| Required | String | Elasticsearch basic authentication, e.g. `"Basic dXNlcjpwYXNzdzByZA=="`|
 |`api_version`| Required | String | API version, e.g. `"1.0.0"`|
 
-Basic authentication requires that user and password are Base64 encoded:
+✅ &nbsp;Basic authentication requires that user and password are Base64 encoded:
 ```
 echo -n user:passw0rd | base64
 ```
