@@ -63,7 +63,7 @@ npm install
 # Configure the parameters in the file config/config.json.
 # See section "Configuration Parameter Descriptions" below.
 
-# Build and deploy:
+# Build and deploy
 npm run start
 ```
 `npm run start` will build the project, deploy infrastructure such as API gateway and Lambda functions into AWS, and configure EPCC with the appropriate integration webhook URL. Terraform will ask you to confirm before creating any infrastructure: typing in `yes` will confirm.
