@@ -64,7 +64,7 @@ cd epcc-composable-commerce-reference
 # Install dependencies for all modules
 npm install
 
-# Configure the parameters in the file config/config.json.
+# Configure the parameters in the file src/config/config.json.
 # See section "Configuration Parameter Descriptions" below.
 
 # Build and deploy
@@ -106,7 +106,7 @@ https://<apigw_id_etc>.amazonaws.com/dev/<epcc_store_id>
 
 ## Configuration Parameter Descriptions ⚙️
 
-Parameters that require configuration are in the `config/config.json` file:
+Parameters that require configuration are in the `src/config/config.json` file:
 
 |Parameter| Importance|Type|Description|
 |--|--|--|--|
