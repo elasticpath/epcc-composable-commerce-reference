@@ -1,0 +1,8 @@
+{
+    "epcc_store_id": "<epcc_store_id>",
+    "epcc_client_id": "<epcc_client_id>",
+    "epcc_client_secret": "<epcc_client_secret>",
+    "elasticsearch_url": "<elasticsearch_url>",
+    "elasticsearch_auth": "Basic <user:passw0rd>",
+    "api_version": "1.0.0"
+}
